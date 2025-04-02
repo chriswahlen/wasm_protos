@@ -1,0 +1,8 @@
+# Calls the pbjs to compile proto files to javascript.
+# Requires protobufjs to be installed via npm - the symlink
+# is relative to the npm path in node_modules.
+sh_binary(
+  name = "pbjs",
+  srcs = ["pbjs_real"],
+  visibility = ["//visibility:public"],
+)

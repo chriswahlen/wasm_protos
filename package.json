@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "protobufjs": "^7.2.4"
+  },
+  "devDependencies": {
+    "protobufjs-cli": "^1.1.3"
+  }
+}

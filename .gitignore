@@ -1,0 +1,6 @@
+bazel-*
+.vscode
+.git
+MODULE.bazel.lock
+package-lock.json
+node_modules/*
