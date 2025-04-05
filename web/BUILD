@@ -7,11 +7,13 @@ genrule(
     "//main:hello-world-wasm",
     "hello.html",
     "javascript/main.js",
+    "third_party/protobuf.min.js",
   ],
   outs = [
     "js/main.js",
     "js/hello-world.js",
     "js/hello-world.wasm",
+    "js/protobuf.min.js",
     "hello-world.html",
   ],
   cmd = """
@@ -20,6 +22,7 @@ genrule(
     cp hello-world.wasm $(@D)/js/hello-world.wasm
     cp $(location hello.html) $(@D)/hello-world.html
     cp $(location javascript/main.js) $(@D)/js/main.js
+    cp $(location third_party/protobuf.min.js) $(@D)/js/protobuf.min.js
   """,
 )
 
