@@ -1,6 +1,10 @@
-import Module from "./hello-world.js";
+// @ts-check
+
+import Module from "../../main/hello-world-wasm/hello-world.js";
+import * as protos from "../js/proto_bundle.js";
+import { JsLib } from "./jslib/jslib.js";
+
 const $protobuf = protobuf;
-import * as protos from "./proto_bundle.js";
 
 Module().then((Module) => {
   Module._say_hello();
@@ -27,4 +31,7 @@ Module().then((Module) => {
   // Clean up.
   Module._free(dataPtr);
   Module._free(lenPtr);
+
+  const jslib = new JsLib();
+  jslib.sayHello();
 });

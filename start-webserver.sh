@@ -1,10 +1,8 @@
 #!/bin/bash
 # A script to start a web server and rebuild the web bundle on changes.
-# TODO: Rebuild the webserver on proto changes too
 set -euo pipefail
 
 echo "🔨 Initial build..."
-bazelisk build //web:web_protos
 bazelisk build //web:copy_web_bundle
 
 echo "🚀 Starting web server..."
