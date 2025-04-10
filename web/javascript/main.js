@@ -1,7 +1,7 @@
 // @ts-check
 
 import Module from "../../main/hello-world-wasm/hello-world.js";
-import * as protos from "../js/proto_bundle.js";
+import * as protos from "../../main/proto/proto_bundle.js";
 import { JsLib } from "./jslib/jslib.js";
 
 const $protobuf = protobuf;
