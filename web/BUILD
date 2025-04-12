@@ -19,3 +19,5 @@ copy_bundle(
   ],
   out_dir = "web_bundle",
 )
+
+exports_files(["third_party/protobuf.min.js"])

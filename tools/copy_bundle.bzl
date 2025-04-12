@@ -49,3 +49,15 @@ copy_bundle = rule(
     "out_dir": attr.string(mandatory = True),
   },
 )
+
+# Create a local alias of the source file. Makes it easier to reference the protobuf.min.js dependency
+# from another build repo without needing to redefine the protobufjs dependency there.
+def local_alias(name, src):
+  filename = src.split(":")[-1]
+
+  native.genrule(
+    name = name,
+    srcs = [src],
+    outs = [filename],
+    cmd = "cp $(location {}) $@".format(src),
+  )
