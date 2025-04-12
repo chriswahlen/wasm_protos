@@ -1,6 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("//tools:js_proto_bundle.bzl", "js_proto_bundle")
+load("//tools:js_proto_defs.bzl", "js_proto_bundle")
 
 proto_library(
   name = "hello_proto",

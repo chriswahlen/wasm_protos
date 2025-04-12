@@ -30,3 +30,27 @@ EOF
     visibility = visibility or ["//visibility:public"],
   )
 
+
+# Conjure up a protobuf.min.js.
+# TODO: Find a way to grab this out of the locally installed npm repo. This is very hacky.
+def generate_protobufjs_dep(name, out, visibility = None):
+  native.genrule(
+    name = name,
+    outs = [out],
+    cmd = """
+      # Hack: install protobufjs in the execroot...
+      cat > package.json <<EOF
+{{
+  "dependencies": {{
+    "protobufjs": "^7.2.4"
+  }}
+}}
+EOF
+      npm install protobufjs
+      mkdir -p $(@D)
+      cp node_modules/protobufjs/dist/minimal/protobuf.min.js $(@D)/{out_file}
+    """.format(
+      out_file = out
+    ),
+    visibility = visibility or ["//visibility:public"],
+  )
