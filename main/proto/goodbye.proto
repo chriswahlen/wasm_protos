@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package hello;
-
-message GoodbyeProto {
-  string adios = 1;
-}
