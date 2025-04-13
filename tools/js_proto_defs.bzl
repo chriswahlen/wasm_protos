@@ -21,8 +21,10 @@ EOF
       BUNDLE_FILE="$(@D)/$$BUNDLE_BASENAME"
       BUNDLE_FILE_TMP=tmp/bundle.js
       mkdir -p tmp
-      # Relative include path so protos can find dependencies
-      npx pbjs -p ./ -t static --wrap es6 $(SRCS) > tmp/tmp.bundle.js
+      # Relative include path so protos can find dependencies.
+      # Also add external as an include path because that is where bazel
+      # sticks any externally referenced repo.
+      npx pbjs -p ./ -p ./external/ -t static --wrap es6 $(SRCS) > tmp/tmp.bundle.js
       echo "const \\$$protobuf = protobuf;" > $$BUNDLE_FILE
       cat tmp/tmp.bundle.js >> $$BUNDLE_FILE
     """.format(
