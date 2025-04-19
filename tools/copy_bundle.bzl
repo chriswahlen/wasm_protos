@@ -1,5 +1,11 @@
 # Starlark rule for copying a bunch of files to the output directory,
 # preserving relative paths.
+# `srcs`: List of sources to copy, preserving relative paths.
+# `local_srcs`: List of sources to copy, without preserving relative paths. Note
+#               that you must *also* declare the target in `srcs`, otherwise
+#               Bazel doesn't actually know to include it as a source.
+#
+# These options allow you to avoid deep nesting of your root html files.
 def _copy_bundle_impl(ctx):
   out_dir = ctx.actions.declare_directory(ctx.attr.out_dir)
 
@@ -8,8 +14,21 @@ def _copy_bundle_impl(ctx):
   # and relative paths are the same; otherwise the full path has the
   # bazel-out/ path in front of it.
   input_paths = []
+  local_srcs = []
+  for f in ctx.files.local_srcs:
+    input_paths.append("{}\t{}".format(f.path, f.basename))
+    local_srcs.append(f.path)
+
   for f in ctx.files.srcs:
-    input_paths.append("{}\t{}".format(f.path, f.short_path))
+    if f.path in local_srcs:
+      # Skip any files declared as a local source
+      continue
+    if f.short_path.startswith("../"):
+      # External repos prepend "external/" (and thus prepend "../" to the
+      # short path), so rewrite these to end up relative.
+      input_paths.append("{}\t{}".format(f.path, f.short_path[3:]))
+    else:
+      input_paths.append("{}\t{}".format(f.path, f.short_path))
 
   # Write the manifest. Note that a newline at the end is required,
   # otherwise the last line is skipped.
@@ -47,6 +66,7 @@ copy_bundle = rule(
   attrs = {
     "srcs": attr.label_list(allow_files = True),
     "out_dir": attr.string(mandatory = True),
+    "local_srcs": attr.label_list(allow_files = True)
   },
 )
 
