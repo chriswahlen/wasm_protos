@@ -1,0 +1,1 @@
+exports_files(["emit_proto_exports.py"])
